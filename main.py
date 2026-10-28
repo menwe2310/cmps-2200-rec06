@@ -18,7 +18,7 @@ class BinaryHeap:
         """
         if (2*i + 1) < len(self.H):
             ## TODO
-            pass
+            return 2*i + 1
         else:
             return -1
 
@@ -33,7 +33,7 @@ class BinaryHeap:
         """
         if (2*i + 2) < len(self.H):
             ## TODO
-            pass
+            return 2*i + 2
         else:
             return -1
 
@@ -48,7 +48,7 @@ class BinaryHeap:
         """
         if i > 0:
             ## TODO 
-            pass
+            return (i-1)//2
         else:
             return 0
 
@@ -69,7 +69,9 @@ class BinaryHeap:
         print("reheaping  up from %d"%i)
         while ((c != 0) and (self.H[c] < self.H[p])):
             ## TODO
-            pass
+            self.H[c], self.H[p] = self.H[p], self.H[c]
+            c = p
+            p = self.parent(c)
 
     # restore the heap property going downward from node i
     def reheapDown(self, i):
@@ -89,8 +91,13 @@ class BinaryHeap:
         r = self.rchild(i)
         while (l > 0 and (self.H[c] > self.H[l])) or (r > 0 and (self.H[c] > self.H[r])):
             ## TODO
-            pass
-        
+            if self.H[l] < self.H[r]: smallest = l
+            else: smallest = r
+            self.H[smallest], self.H[c] = self.H[c], self.H[smallest]
+            c = smallest
+            l = self.lchild(c)
+            r = self.rchild(c)
+       
         
     def deleteMin(self):
         """
@@ -105,7 +112,9 @@ class BinaryHeap:
         m = self.H[0]
         if (len(self.H) > 1):
             ## TODO
-            pass
+            if (len(self.H) > 1):
+                self.H[0] = self.H.pop()
+                self.reheapDown(0)
 
         else:
             self.H.pop() # removes the only element left
@@ -119,7 +128,8 @@ class BinaryHeap:
 
         Returns nothing.
         """
-        pass
+        self.H.append(x)
+        self.reheapUp(len(self.H) - 1)
 
 def heapsort(a):
     """
@@ -136,5 +146,9 @@ def heapsort(a):
     H = BinaryHeap()
     sorted_a = []
     ## TO DO
+    for x in a:
+        H.insert(x)
+    while len(H.H) > 0:
+        sorted_a.append(H.deleteMin())
 
     return sorted_a
