@@ -50,7 +50,7 @@ class BinaryHeap:
             ## TODO 
             return (i-1)//2
         else:
-            return 0
+            return -1
 
     def reheapUp(self, i):
         """
